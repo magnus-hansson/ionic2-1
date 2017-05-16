@@ -16,6 +16,7 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { Push, PushToken } from '@ionic/cloud-angular';
 
 
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': '0a1b5216',
