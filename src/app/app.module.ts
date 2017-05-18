@@ -15,7 +15,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { Push, PushToken } from '@ionic/cloud-angular';
-
+//import 'expose?Hammer!hammerjs/hammer';
+//import "propagating-hammerjs";
 
 
 const cloudSettings: CloudSettings = {
