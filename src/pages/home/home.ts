@@ -43,6 +43,7 @@ export class HomePage {
       this.chart.load({
         columns: this.sites
       });
+      
       d3.select('#chart .c3-chart-arcs-title').node().innerHTML = "Visitors " + total;
   }
 
