@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import moment from 'moment';
+import { Service } from '../../shared/shared';
 //import * as vis from '../assets/vis-custom';
 
 @IonicPage()
@@ -11,21 +12,18 @@ import moment from 'moment';
   templateUrl: 'rooms.html',
 })
 export class RoomsPage {
-  
+
   timeline: any;
   timelineOptions: any;
   items: any;
   groups: any;
   container: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public service: Service) {
 
   }
 
   loadRoomsFromApi() {
-    return new Promise(resolve => {
-      this.http.get('http://localhost/MobileOfficeApi2/api/rooms/sweden//booked?hoursAhead=2')
-        .subscribe(res => resolve(res.json()));
-    });
+    return this.service.loadRoomsFromApi();
   }
 
   setOptions() {
@@ -65,6 +63,7 @@ export class RoomsPage {
   ionViewDidLoad() {
 
     this.loadRoomsFromApi().then(response => {
+      console.log(response);
       this.setDataSet(response);
       this.setOptions();
     });
@@ -72,7 +71,7 @@ export class RoomsPage {
     var container = document.getElementById('visualization');
 
     // Create a DataSet (allows two way data-binding)
-    var items =  new window["vis"].DataSet([
+    var items = new window["vis"].DataSet([
       { id: 1, content: 'item 1', start: '2013-04-20' },
       { id: 2, content: 'item 2', start: '2013-04-14' },
       { id: 3, content: 'item 3', start: '2013-04-18' },
@@ -82,13 +81,13 @@ export class RoomsPage {
     ]);
 
     // Configuration for the Timeline
-     this.timelineOptions = {
+    this.timelineOptions = {
       hiddenDates: [ // This option allows you to hide specific timespans from the time axis. The dates can be supplied as an object
         // To hide a weekend, pick any Saturday as start and the following Monday as end and set repeat to weekly.
         { start: moment(new Date()).format('YYYY-MM-DD 00:00:00'), end: moment(new Date()).format('YYYY-MM-DD 07:30:00') },
         { start: moment(new Date()).format('YYYY-MM-DD 18:00:00'), end: moment(new Date()).format('YYYY-MM-DD 00:00:00') }
       ],
-      
+
       zoomMin: 1000 * 60 * 60 * 2, //Set a minimum zoom interval for the visible range in milliseconds. 
       zoomMax: 1000 * 60 * 60 * 2, // Set a maximum zoom interval for the visible range in milliseconds. 
       rollingMode: true, // If true, the timeline will initial in a rolling mode - the current time will always be centered.

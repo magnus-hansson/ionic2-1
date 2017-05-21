@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <img src="assets/image/icon-48-mdpi.png" width="40px" style="display:inline-block" >
-    <ion-title >Overview</ion-title>
+    <img src="assets/image/icon-48-mdpi.png" width="40px" style="display:inline-block">
+    <ion-title>Overview</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -10,12 +10,22 @@
   <div id="chart"></div>
   <ion-grid>
     <ion-row>
-      <ion-col col-4><h2>330</h2> @sthlm office</ion-col>
-      <ion-col col-4><h2>1223</h2> web bookings today</ion-col>
-      <ion-col col-4><h2>22/8:01</h2>VCC queue </ion-col>
+      <ion-col col-4>
+        <h2>330</h2> @sthlm office</ion-col>
+      <ion-col col-4>
+        <h2>1223</h2> web bookings today</ion-col>
+      <ion-col col-4>
+        <h2>22/8:01</h2>VCC queue </ion-col>
     </ion-row>
-   
+
   </ion-grid>
+
+  <ion-list>
+    <ion-list-header>
+      News
+    </ion-list-header>
+    <ion-item *ngFor="let item of news"> {{item.title}}</ion-item>
+  </ion-list>
 
   <!--<ion-slides pager>
 

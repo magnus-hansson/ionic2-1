@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Http } from '@angular/http';
-import  Pusher  from 'pusher-js';
+import Pusher from 'pusher-js';
+import { Service } from '../../shared/shared';
 import * as c3 from 'c3';
 declare var d3: any;
 //declare var Pusher: any;
@@ -12,39 +13,40 @@ declare var d3: any;
 export class HomePage {
   chart: any;
   posts: any;
+  news: any;
   sites: Array<any>;
   pusher: any;
   x: [string, number];
-  constructor(public navCtrl: NavController, public http: Http) {
+  constructor(public navCtrl: NavController, public http: Http, private service: Service) {
     this.chart = null;
     this.posts = null;
     this.sites = [];
-    
- this.pusher = new Pusher('c089a6025f9c3f9cffca', {
+
+    this.pusher = new Pusher('c089a6025f9c3f9cffca', {
       cluster: 'eu',
       encrypted: true
     });
-   
+
     var channel = this.pusher.subscribe('analytics-channel');
     channel.bind('realtime-visitors', (data) => {
       this.fillDonut(data);
     });
-   
+
   }
 
-  fillDonut(data){
+  fillDonut(data) {
     let total = 0;
     for (var item in data) {
-        total = total + data[item].value;
-        let x = [data[item].key, data[item].value];
-        this.sites.push(x);
-      }
+      total = total + data[item].value;
+      let x = [data[item].key, data[item].value];
+      this.sites.push(x);
+    }
 
-      this.chart.load({
-        columns: this.sites
-      });
-      
-      d3.select('#chart .c3-chart-arcs-title').node().innerHTML = "Visitors " + total;
+    this.chart.load({
+      columns: this.sites
+    });
+
+    d3.select('#chart .c3-chart-arcs-title').node().innerHTML = "Visitors " + total;
   }
 
   ionViewDidEnter() {
@@ -78,5 +80,13 @@ export class HomePage {
         },
       }
     });
+
+    this.loadNews().then(x => {
+      this.news = x;
+    })
+  }
+
+  loadNews(){
+    return this.service.loadNews(3);
   }
 }
